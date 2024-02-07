@@ -1,3 +1,5 @@
+import { CronService } from "./cron/cron-service";
+
 // clase server
 export class Server {
 
@@ -5,6 +7,14 @@ export class Server {
 
         console.log('Server started...');
 
+        // llamamos CronService.createJob()
+        CronService.createJob(
+            '*/5 * * * * *',
+            () => {
+                
+                
+            }
+        );
     }
 
 }
