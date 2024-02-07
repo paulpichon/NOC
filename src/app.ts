@@ -1,6 +1,15 @@
+import { Server } from "./presentation/server";
 
+// funcion anonima autoinvocada
+(async() => {
 
+    // llamamos la funcion main
+    main();
 
-export const name: string = 'Paul!!';
+})();
 
-console.log( name);
+// 
+function main() {
+    Server.start();
+}
+
