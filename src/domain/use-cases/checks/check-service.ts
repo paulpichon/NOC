@@ -4,7 +4,19 @@ interface CheckServiceUseCase {
     execute( url: string): Promise<boolean>;
 }
 
+// creacion de 2 types
+type SuccessCallback = () => void;
+type ErrorCallback = ( error: string ) => void;
+
+
 export class CheckService implements CheckServiceUseCase {
+
+    // inyenccion de dependencias
+    constructor(
+        private readonly successCallback: SuccessCallback,
+        private readonly errorCallback: ErrorCallback
+    ) {}
+
     // metodos
     async execute( url: string ): Promise<boolean>  {
 
@@ -15,14 +27,13 @@ export class CheckService implements CheckServiceUseCase {
                 throw new Error(`Error on check service ${url}`);
             }
 
-            // mensaje
-            console.log(`${url} is ok`);
-            
+            this.successCallback();            
             return true;
 
         } catch (error) {
             console.log(`${error}`);
             
+            this.errorCallback(`${ error}`);
             return false;
         }
 

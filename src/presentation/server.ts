@@ -12,9 +12,13 @@ export class Server {
         CronService.createJob(
             '*/5 * * * * *',
             () => {
-                
+                const url = 'https://google.com';
                 // mandamos a llamar el CheckService: nuestro caso de uso
-                new CheckService().execute('https://google.com');
+                new CheckService(
+                    () => console.log(`${ url } is ok!`),
+                    ( error ) => console.log( error ),
+                ).execute( url );
+                // new CheckService().execute('http://localhost:3000');
                 
             }
         );
