@@ -24,4 +24,17 @@ export class LogEntity {
         this.createdAt = new Date();
     }
 
+    // metodo para parsear el JSON
+    static fromJson = ( json: string ): LogEntity => {
+        // desestructuramos de JSON.parse( json )
+        const { message, level, createdAt } = JSON.parse( json );
+        // creamos el log
+        const log = new LogEntity( message, level );
+        //  agregamos la fecha
+        log.createdAt = new Date( createdAt );
+        // retornamos el log
+        return log;
+
+    }
+
 }
