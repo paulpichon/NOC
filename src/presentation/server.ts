@@ -1,3 +1,4 @@
+import { envs } from "../config/plugins/envs.plugin";
 import { CheckService } from "../domain/use-cases/checks/check-service";
 import { FileSystemDatasource } from "../infrastructure/datasources/file-system.datasource";
 import { LogRepositoryImpl } from "../infrastructure/repositories/log.repository.impl";
@@ -16,6 +17,9 @@ export class Server {
         console.log('Server started...');
 
         // Mandar EMAIL
+
+        console.log( envs.MAILER_SECRET_KEY, envs.MAILER_EMAIL );
+        
 
         // llamamos CronService.createJob()
         // CronService.createJob(
