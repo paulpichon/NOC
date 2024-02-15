@@ -62,26 +62,11 @@ export class EmailService {
                 html: htmlBody,
                 attachments: attachments
             });
-            // console.log( sentInformation );
-            const log = new LogEntity({
-                level: LogSeverityLevel.low,
-                message: 'Email sent',
-                origin: 'email.service.ts'
-            });
-            // 
-            // this.logRepository.saveLog(log);
-            
+                        
             return true;
 
         } catch (error) {
-            const log = new LogEntity({
-                level: LogSeverityLevel.high,
-                message: 'Email sent',
-                origin: 'email.service.ts'
-            });
-            // 
-            // this.logRepository.saveLog(log);
-
+            console.log( error );
             return false;
         }
     }
