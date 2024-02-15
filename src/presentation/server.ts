@@ -1,5 +1,6 @@
 import { envs } from "../config/plugins/envs.plugin";
 import { CheckService } from "../domain/use-cases/checks/check-service";
+import { SendEmailLogs } from "../domain/use-cases/email/send-email-logs";
 import { FileSystemDatasource } from "../infrastructure/datasources/file-system.datasource";
 import { LogRepositoryImpl } from "../infrastructure/repositories/log.repository.impl";
 import { CronService } from "./cron/cron-service";
@@ -10,6 +11,8 @@ import { EmailService } from "./email/email.service";
 const fileSystemLogRepository = new LogRepositoryImpl(
     new FileSystemDatasource()
 );
+// creamos la instancia de EmailService()
+const emailService = new EmailService();
 
 // clase server
 export class Server {
@@ -19,13 +22,24 @@ export class Server {
         console.log('Server started...');
 
         // Mandar EMAIL
-        const emailService = new EmailService();
+        new SendEmailLogs(
+            emailService,
+            fileSystemLogRepository
+        ).execute(
+            // correo de destino
+            [
+                'paul@aquiestoy.mx',
+                'paul10_barca@hotmail.com'
+            ]
+        );
+        
         // mandar email con sendEmailWithFileSystemLogs
         // de esta forma podemos mandarlo a diferentes correos al mismo tiempo
-        emailService.sendEmailWithFileSystemLogs([
-            // 'info@aquiestoy.mx', 
-            'paul@aquiestoy.mx'
-        ]);
+        // emailService.sendEmailWithFileSystemLogs([
+        //     // 'info@aquiestoy.mx', 
+        //     'paul@aquiestoy.mx',
+        //     'paul10_barca@hotmail.com'
+        // ]);
        
         // esto ya funciona
         // cuerpo del email

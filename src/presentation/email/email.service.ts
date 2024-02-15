@@ -2,6 +2,8 @@
 import nodemailer from 'nodemailer';
 // VARIABLES DE ENTORNO
 import { envs } from '../../config/plugins/envs.plugin';
+// Log Entity
+import { LogEntity, LogSeverityLevel } from '../../domain/entities/log.entity';
 
 // interface
 interface SendEmailOptions {
@@ -32,16 +34,19 @@ export class EmailService {
         // }
 
         // configuracion con mi propio servicio de CORREO ELECTRONICO (HOSTGATOR TITAN)
-        host: "smtp.titan.email",
-        port: 465,
-        secure: true,
+        host: envs.MAILER_HOST,
+        port: envs.MAILER_PORT,
+        secure: envs.MAILER_SECURE,
         auth: {
             // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-            user: "info@aquiestoy.mx",
-            pass: "barcelona19421992!",
+            user: envs.MAILER_AUTH_USER,
+            pass: envs.MAILER_AUTH_PASSWORD,
         },
 
     });
+
+    // inyeccion de dependencias
+    constructor() {}
 
     // METODOS
     async sendEmail( options: SendEmailOptions) : Promise<boolean> {
@@ -57,13 +62,26 @@ export class EmailService {
                 html: htmlBody,
                 attachments: attachments
             });
-            console.log( sentInformation );
+            // console.log( sentInformation );
+            const log = new LogEntity({
+                level: LogSeverityLevel.low,
+                message: 'Email sent',
+                origin: 'email.service.ts'
+            });
+            // 
+            // this.logRepository.saveLog(log);
             
-
             return true;
+
         } catch (error) {
-            console.log( error );
-            
+            const log = new LogEntity({
+                level: LogSeverityLevel.high,
+                message: 'Email sent',
+                origin: 'email.service.ts'
+            });
+            // 
+            // this.logRepository.saveLog(log);
+
             return false;
         }
     }
