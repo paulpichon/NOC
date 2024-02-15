@@ -20,17 +20,27 @@ export class Server {
 
         // Mandar EMAIL
         const emailService = new EmailService();
+        // mandar email con sendEmailWithFileSystemLogs
+        // de esta forma podemos mandarlo a diferentes correos al mismo tiempo
+        emailService.sendEmailWithFileSystemLogs([
+            // 'info@aquiestoy.mx', 
+            'paul@aquiestoy.mx'
+        ]);
+       
+        // esto ya funciona
         // cuerpo del email
-        emailService.sendEmail({
-            from: "info@aquiestoy.mx",
-            to: 'paul10_barca@hotmail.com',
-            subject: 'Logs del sistema',
-            htmlBody: `
-                <h1>Logs del sistema</h1>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iusto inventore nulla nobis quod molestias quam accusantium beatae. Cumque, quam! Hic, maiores dicta! Ipsam animi incidunt dolor reiciendis. Mollitia, at esse.</p>
-                <p>Ver logs adjuntos</p>
-            `
-        });
+        // emailService.sendEmail({
+        //     from: '¡AquíEstoy! <info@aquiestoy.mx>',
+        //     to: 'paul10_barca@hotmail.com',
+        //     subject: 'Logs del sistema',
+        //     htmlBody: `
+        //         <h1>Logs del sistema</h1>
+        //         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iusto inventore nulla nobis quod molestias quam accusantium beatae. Cumque, quam! Hic, maiores dicta! Ipsam animi incidunt dolor reiciendis. Mollitia, at esse.</p>
+        //         <p>Ver logs adjuntos</p>
+        //     `
+        // });
+
+        
         
 
         // llamamos CronService.createJob()

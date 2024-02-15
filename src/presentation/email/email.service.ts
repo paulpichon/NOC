@@ -5,12 +5,19 @@ import { envs } from '../../config/plugins/envs.plugin';
 
 // interface
 interface SendEmailOptions {
-    to: string;
+    from: string;
+    to: string | string[];
     subject: string;
     htmlBody: string;
-    from: string;
-    // TODO: attachements
+    attachments?: Attachment[];
 }
+// interface Attachment
+interface Attachment {
+    filename: string;
+    path: string;
+
+}
+
 // TODO: attachements
 
 // envio de email
@@ -39,7 +46,7 @@ export class EmailService {
     // METODOS
     async sendEmail( options: SendEmailOptions) : Promise<boolean> {
         // desestructurar
-        const { to, subject, htmlBody, from } = options;
+        const { to, subject, htmlBody, from, attachments = [] } = options;
 
         try {
             
@@ -47,8 +54,11 @@ export class EmailService {
                 from: from,
                 to: to,
                 subject: subject,
-                html: htmlBody
+                html: htmlBody,
+                attachments: attachments
             });
+            console.log( sentInformation );
+            
 
             return true;
         } catch (error) {
@@ -56,8 +66,40 @@ export class EmailService {
             
             return false;
         }
+    }
+    // metodo para madar el email con los logs
+    async sendEmailWithFileSystemLogs( to: string | string[]) {
+        const from = '¡AquíEstoy! <info@aquiestoy.mx>'
+        const subject = 'Logs del servidor';
+        const htmlBody = `
+            <h3>Logs del sistema</h3>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iusto inventore nulla nobis quod molestias quam accusantium beatae. Cumque, quam! Hic, maiores dicta! Ipsam animi incidunt dolor reiciendis. Mollitia, at esse.</p>
+            <p>Ver logs adjuntos</p>
+        `;
 
+        const attachments: Attachment[] = [
+            {
+                filename: 'logs-all.log',
+                path: './logs/logs-all.log'
+            },
+            {
+                filename: 'logs-high.log',
+                path: './logs/logs-high.log'
+            },
+            {
+                filename: 'logs-medium.log',
+                path: './logs/logs-medium.log'
+            },
+        ];
 
+        // enviar correo
+        return this.sendEmail({
+            from,
+            to,
+            subject,
+            attachments,
+            htmlBody
+        });
     }
 
 
