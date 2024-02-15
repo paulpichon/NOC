@@ -22,16 +22,17 @@ export class Server {
         console.log('Server started...');
 
         // Mandar EMAIL
-        new SendEmailLogs(
-            emailService,
-            fileSystemLogRepository
-        ).execute(
-            // correo de destino
-            [
-                'paul@aquiestoy.mx',
-                'paul10_barca@hotmail.com'
-            ]
-        );
+        // TODO: descomentar esto
+        // new SendEmailLogs(
+        //     emailService,
+        //     fileSystemLogRepository
+        // ).execute(
+        //     // correo de destino
+        //     [
+        //         'paul@aquiestoy.mx',
+        //         'paul10_barca@hotmail.com'
+        //     ]
+        // );
         
         // mandar email con sendEmailWithFileSystemLogs
         // de esta forma podemos mandarlo a diferentes correos al mismo tiempo
