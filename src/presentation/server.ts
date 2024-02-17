@@ -6,10 +6,14 @@ import { LogRepositoryImpl } from "../infrastructure/repositories/log.repository
 import { CronService } from "./cron/cron-service";
 // enviar correo
 import { EmailService } from "./email/email.service";
+// mongodb
+import { MongoLogDatasource } from "../infrastructure/datasources/mongo-log.datasource";
 
 // LogRepository implementation, y lo manbdamos en el CheckService
-const fileSystemLogRepository = new LogRepositoryImpl(
-    new FileSystemDatasource()
+const logRepository = new LogRepositoryImpl(
+    // new FileSystemDatasource()
+    // mongodb
+    new MongoLogDatasource(),
 );
 // creamos la instancia de EmailService()
 const emailService = new EmailService();
@@ -65,12 +69,10 @@ export class Server {
         //         const url = 'https://google.com';
         //         // mandamos a llamar el CheckService: nuestro caso de uso
         //         new CheckService(
-        //             fileSystemLogRepository,
+        //             logRepository,
         //             () => console.log(`${ url } is ok!`),
         //             ( error ) => console.log( error ),
         //         ).execute( url );
-        //         // new CheckService().execute('http://localhost:3000');
-                
         //     }
         // );
     }
