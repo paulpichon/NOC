@@ -12,5 +12,12 @@ export const envs = {
     MAILER_SECURE: env.get('MAILER_SECURE').required().asBool(),
     MAILER_AUTH_USER: env.get('MAILER_AUTH_USER').required().asEmailString(),
     MAILER_AUTH_PASSWORD: env.get('MAILER_AUTH_PASSWORD').required().asString(),
-    PROD:env.get('PROD').required().asBool()
+    PROD:env.get('PROD').required().asBool(),
+    // mongo db
+    MONGO_URL: env.get('MONGO_URL').required().asString(),
+    MONGO_DB_NAME: env.get('MONGO_DB_NAME').required().asString(),
+    MONGO_USER: env.get('MONGO_USER').required().asString(),
+    MONGO_PASS: env.get('MONGO_PASS').required().asString(),
+
+
 }

@@ -65,6 +65,7 @@ export class FileSystemDatasource implements LogDatasource{
     // nos creamos un metodo privado
     private getLogsFromFile = ( path: string ) : LogEntity[] => {
         const content = fs.readFileSync( path, 'utf8' );
+        if ( content === '') return [];
         // separamos los LOGS por "\n" y con .map() hacemos el LOGENTITY.FROMJSON para parsear los LOGS
         const logs = content.split('\n').map( LogEntity.fromJson );
         // esto lo podemos hacer asi o com esta arriba

@@ -6,10 +6,15 @@ import { LogRepositoryImpl } from "../infrastructure/repositories/log.repository
 import { CronService } from "./cron/cron-service";
 // enviar correo
 import { EmailService } from "./email/email.service";
+// mongodb
+import { MongoLogDatasource } from "../infrastructure/datasources/mongo-log.datasource";
+import { LogSeverityLevel } from "../domain/entities/log.entity";
 
 // LogRepository implementation, y lo manbdamos en el CheckService
-const fileSystemLogRepository = new LogRepositoryImpl(
+const logRepository = new LogRepositoryImpl(
     new FileSystemDatasource()
+    // mongodb
+    // new MongoLogDatasource(),
 );
 // creamos la instancia de EmailService()
 const emailService = new EmailService();
@@ -17,21 +22,22 @@ const emailService = new EmailService();
 // clase server
 export class Server {
 
-    public static start() {
+    public static async start() {
 
         console.log('Server started...');
 
         // Mandar EMAIL
-        new SendEmailLogs(
-            emailService,
-            fileSystemLogRepository
-        ).execute(
-            // correo de destino
-            [
-                'paul@aquiestoy.mx',
-                'paul10_barca@hotmail.com'
-            ]
-        );
+        // TODO: descomentar esto
+        // new SendEmailLogs(
+        //     emailService,
+        //     fileSystemLogRepository
+        // ).execute(
+        //     // correo de destino
+        //     [
+        //         'paul@aquiestoy.mx',
+        //         'paul10_barca@hotmail.com'
+        //     ]
+        // );
         
         // mandar email con sendEmailWithFileSystemLogs
         // de esta forma podemos mandarlo a diferentes correos al mismo tiempo
@@ -54,6 +60,8 @@ export class Server {
         //     `
         // });
 
+        const logs = await logRepository.getLogs( LogSeverityLevel.low );
+        console.log( logs );
         
         
 
@@ -64,12 +72,10 @@ export class Server {
         //         const url = 'https://google.com';
         //         // mandamos a llamar el CheckService: nuestro caso de uso
         //         new CheckService(
-        //             fileSystemLogRepository,
+        //             logRepository,
         //             () => console.log(`${ url } is ok!`),
         //             ( error ) => console.log( error ),
         //         ).execute( url );
-        //         // new CheckService().execute('http://localhost:3000');
-                
         //     }
         // );
     }
