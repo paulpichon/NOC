@@ -8,12 +8,13 @@ import { CronService } from "./cron/cron-service";
 import { EmailService } from "./email/email.service";
 // mongodb
 import { MongoLogDatasource } from "../infrastructure/datasources/mongo-log.datasource";
+import { LogSeverityLevel } from "../domain/entities/log.entity";
 
 // LogRepository implementation, y lo manbdamos en el CheckService
 const logRepository = new LogRepositoryImpl(
-    // new FileSystemDatasource()
+    new FileSystemDatasource()
     // mongodb
-    new MongoLogDatasource(),
+    // new MongoLogDatasource(),
 );
 // creamos la instancia de EmailService()
 const emailService = new EmailService();
@@ -21,7 +22,7 @@ const emailService = new EmailService();
 // clase server
 export class Server {
 
-    public static start() {
+    public static async start() {
 
         console.log('Server started...');
 
@@ -59,6 +60,8 @@ export class Server {
         //     `
         // });
 
+        const logs = await logRepository.getLogs( LogSeverityLevel.low );
+        console.log( logs );
         
         
 

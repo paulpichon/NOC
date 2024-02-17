@@ -38,6 +38,8 @@ export class LogEntity {
 
     // metodo para parsear el JSON
     static fromJson = ( json: string ): LogEntity => {
+        // validacion
+        json = ( json === '' ) ? '{}': json;
         // desestructuramos de JSON.parse( json )
         const { message, level, createdAt, origin } = JSON.parse( json );
         // creamos el log
