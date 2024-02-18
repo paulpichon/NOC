@@ -9,12 +9,18 @@ import { EmailService } from "./email/email.service";
 // mongodb
 import { MongoLogDatasource } from "../infrastructure/datasources/mongo-log.datasource";
 import { LogSeverityLevel } from "../domain/entities/log.entity";
+import { PostgresLogDatasource } from "../infrastructure/datasources/postgres-log.datasource";
+import { CheckServiceMultiple } from "../domain/use-cases/checks/check-service-multiple";
 
 // LogRepository implementation, y lo manbdamos en el CheckService
-const logRepository = new LogRepositoryImpl(
+const fsLogRepository = new LogRepositoryImpl(
     new FileSystemDatasource()
-    // mongodb
-    // new MongoLogDatasource(),
+);
+const mongoLogRepository = new LogRepositoryImpl(
+    new MongoLogDatasource(),
+);
+const postgresLogRepository = new LogRepositoryImpl(
+    new PostgresLogDatasource()
 );
 // creamos la instancia de EmailService()
 const emailService = new EmailService();
@@ -71,8 +77,10 @@ export class Server {
         //     () => {
         //         const url = 'https://google.com';
         //         // mandamos a llamar el CheckService: nuestro caso de uso
-        //         new CheckService(
-        //             logRepository,
+        //         new CheckServiceMultiple(
+        //             [   fsLogRepository,
+        //                 mongoLogRepository,
+        //                 postgresLogRepository],
         //             () => console.log(`${ url } is ok!`),
         //             ( error ) => console.log( error ),
         //         ).execute( url );
