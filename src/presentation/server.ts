@@ -60,8 +60,8 @@ export class Server {
         //     `
         // });
 
-        const logs = await logRepository.getLogs( LogSeverityLevel.low );
-        console.log( logs );
+        // const logs = await logRepository.getLogs( LogSeverityLevel.low );
+        // console.log( logs );
         
         
 
