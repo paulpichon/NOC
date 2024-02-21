@@ -32,5 +32,4 @@ describe('log.datasource.test.ts LogDatasource', () => {
         expect( logs[ 0 ] ).toBeInstanceOf( LogEntity );
     });
 
-
 });
